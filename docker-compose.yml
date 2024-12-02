@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - broker
+
+  message_service:
+    build: ./backend/message_service
+    depends_on:
+      - broker
+
+  like_service:
+    build: ./backend/like_service
+    depends_on:
+      - broker
+
+  logging_service:
+    build: ./backend/logging_service
+    depends_on:
+      - broker
+
+  broker:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"       # RabbitMQ communication
+      - "15672:15672"     # RabbitMQ Management UI
